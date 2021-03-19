@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Tecnomatix安装避坑记录(Process Designer, Process Simulate) | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="Tecnomatix Setup Log
+
+以Tecnomatix版本15.1.2为记录，官网帮助索引。
+安装环境检查
+Tecnomatix 支持的操作系统
+参考
+
+
+
+Operating System - 64bit / CPU x86-..." />
+    <meta name="keywords" content="Tecnomatix" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Tecnomatix安装避坑记录(Process Designer, Process Simulate)</h2>
+            <div class="post-date">2021-01-19 22:15:22</div>
+            
+            <div class="post-content" v-pre>
+              <p>Tecnomatix Setup Log</p>
+<!-- more -->
+<p>以Tecnomatix版本15.1.2为记录，官网<a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index">帮助索引</a>。</p>
+<h2 id="安装环境检查">安装环境检查</h2>
+<h3 id="tecnomatix-支持的操作系统">Tecnomatix 支持的操作系统</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1168998:Supported_Operating_Systems_1%3E">参考</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Operating System - 64bit / CPU x86-64</th>
+<th style="text-align:left">Tecnomatix 14.0, 14.0.1, 14.0.2, 14.1</th>
+<th style="text-align:left">Tecnomatix 14.1.1, 14.1.2, 15.0, 15.0.1, 15.0.2, 15.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Windows 7 - Enterprise edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 8.1 - Enterprise edition</td>
+<td style="text-align:left">Limited support</td>
+<td style="text-align:left">Limited support</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 10 - Enterprise edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2008 R2 SP1 - Standard edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2012 R2 - Standard edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2016 - Standard edition</td>
+<td style="text-align:left">Not supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tecnomatix数据库兼容性列表">Tecnomatix数据库兼容性列表</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1016872">参考</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tecnomatix version</th>
+<th style="text-align:left">Oracle 12.1.0.2 EE/SE</th>
+<th style="text-align:left">Oracle 12.2.0.1 EE/SE</th>
+<th style="text-align:left">Oracle 18.0.0 EE/SE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">14.0</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.0.2</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1.2, 15.0</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2,3</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">15.0.1, 15.0.2, 15.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2,3</td>
+<td style="text-align:left">Supported 2,3,4</td>
+</tr>
+<tr>
+<td style="text-align:left">1.Oracle Server is certified, Oracle client has to be 12.1.0.2   2.ODAC (including ‘Oracle Data Provider for .NET’) should be installed   3.Pluggable databases are certified   4.Oracle Server is certified, Oracle client has to be 12.1.0.2 or 12.2.0.1</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="配置客户端和服务器环境">配置客户端和服务器环境</h3>
+<h4 id="在windows-10上将中文设置为操作系统语言">在Windows 10上将中文设置为操作系统语言</h4>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1553952">参考</a><br>
+为了确保Oracle数据库环境与eMS及客户端与服务器环境兼容，检查客户端计算机上的“用户区域设置”（来自“区域”设置）是否与服务器（eMSAgent）计算机上的“系统区域设置”（来自“区域”设置）相同。</p>
+<ul>
+<li>对于Windows 10，使用控制面板中的“区域和语言”设置将“格式”语言设置为“简体中文”。</li>
+<li>在“管理”选项卡中，使用“更改系统区域设置”选项将语言设置为“简体中文”（如果尚未设置）。</li>
+</ul>
+<h4 id="确定要用于非unicode程序的语言">确定要用于非Unicode程序的语言</h4>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1016807">参考</a><br>
+使用以下步骤来确保正确设置环境：</p>
+<ul>
+<li>验证是否在“区域和语言”对话框的“管理”选项卡的“非Unicode程序的当前语言”部分中设置了所需的语言。</li>
+<li>如果不是这种情况，使用“管理”选项卡的“更改系统区域设置”按钮设置所需的语言。</li>
+<li>验证“区域和语言”对话框的“格式”选项卡的“格式”部分中的条目与所需的语言相同。</li>
+<li>如果不是，在“格式”部分中设置所需的语言。</li>
+<li>在“区域和语言”对话框的“管理”选项卡中，单击“复制设置”以打开“欢迎”屏幕和新的用户帐户设置对话框。</li>
+<li>在“区域和语言”对话框中，检查“欢迎”屏幕和系统帐户以及“新用户帐户”选项。</li>
+<li>单击确定按钮以实现欢迎屏幕和新的用户帐户设置。</li>
+<li>重新启动计算机（在应用“复制设置”之后，这是必要操作）。</li>
+</ul>
+<h2 id="安装依赖">安装依赖</h2>
+<h3 id="安装-java-8">安装 Java 8</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1168998:xid1009457">参考</a><br>
+Siemens PLM Software不再随Tecnomatix提供Java Runtime Environment（JRE）。在安装Tecnomatix之前，必须下载并安装JRE 8。</p>
+<h4 id="导航到下载页面下载java">导航到<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">下载页面</a>下载Java</h4>
+<ul>
+<li>在资源管理器中，右键单击下载的文件。在显示的菜单中，选择以管理员身份运行。</li>
+<li>在“欢迎使用Java”屏幕中，单击“安装”（不勾选“更改目标文件夹”）。</li>
+<li>JRE完成安装后，将显示“您已成功安装Java”屏幕。单击关闭。</li>
+<li>Windows 64位的默认位置：C:\Program Files (x86)\Java\jre7 or jre8\</li>
+</ul>
+<h4 id="确保java参数正确">确保Java参数正确</h4>
+<p>对于Windows 64位</p>
+<ul>
+<li>JRE_HOME= C:\Program Files (x86)\Java\jre7</li>
+<li>JRE64_HOME= C:\Program Files\Java\jre7</li>
+</ul>
+<h3 id="安装-perl">安装 Perl</h3>
+<p><a href="https://www.perl.org/get.html">下载页面</a><br>
+使用Perl 脚本创建Oracle 数据库。</p>
+<h2 id="安装流程">安装流程</h2>
+<p>检查上述安装环境无误后即可开始Process Designer、Process Simulate的安装。<br>
+JRE --&gt; Perl --&gt; Oracle--&gt;Database Instance Creation --&gt;Process Designer, Process Simulate Setup --&gt;initdb --&gt; Oracle Net Manager--&gt; Association Database --&gt; Check Llicense --&gt; End</p>
+<h2 id="未完待更">未完待更</h2>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.chenlang.win/tag/Tecnomatix/" class="tag">
+                    Tecnomatix
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/关于Funuc手工编写LS程序的说明/">
+                  <h3 class="post-title">
+                    关于Funuc手工编写LS程序的说明
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

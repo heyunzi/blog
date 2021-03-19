@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>配置基于Nginx的WebDav服务 | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="配置 WebDav 和 TLS1.3
+
+环境：Debian10+Nginx/1.16.1
+
+
+编译Nginx
+
+
+检查Nginx版本：
+nginx -V
+确认已安装所需依赖：
+apt install zlib1g-dev
+apt insta..." />
+    <meta name="keywords" content="Ubuntu/Debian" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">配置基于Nginx的WebDav服务</h2>
+            <div class="post-date">2019-10-01 00:28:36</div>
+            
+            <div class="post-content" v-pre>
+              <p>配置 WebDav 和 TLS1.3</p>
+<!-- more -->
+<p>环境：Debian10+Nginx/1.16.1</p>
+<ul>
+<li>
+<h2 id="编译nginx">编译Nginx</h2>
+</li>
+</ul>
+<p>检查Nginx版本：<br>
+<code>nginx -V</code><br>
+确认已安装所需依赖：</p>
+<pre><code>apt install zlib1g-dev
+apt install libgd-dev
+apt install libgeoip-dev
+</code></pre>
+<p>支持WebDav需要<code>with-http_dav_module</code>和<code>nginx-dav-ext-module</code>两个模块。<br>
+获取Nginx：<br>
+<code>wget -c https://nginx.org/download/nginx-1.16.1.tar.gz &amp;&amp; tar zxf nginx-1.16.1.tar.gz &amp;&amp; rm nginx-1.16.1.tar.gz</code><br>
+进入nginx源码目录，下载所需模块源码以供编译：<br>
+nginx-dav-ext-module<br>
+<code>git clone https://github.com/arut/nginx-dav-ext-module.git</code><br>
+headers-more-nginx-module<br>
+<code>git clone https://github.com/openresty/headers-more-nginx-module.git</code><br>
+支持TLS 1.3协定的OpenSSL版本<br>
+<code>wget -c https://www.openssl.org/source/openssl-1.1.1d.tar.gz &amp;&amp; tar zxf openssl-1.1.1d.tar.gz &amp;&amp; rm openssl-1.1.1d.tar.gz</code></p>
+<p>修改编译参数：</p>
+<pre><code>./configure --add-module=./headers-more-nginx-module /
+ --with-openssl=./openssl-1.1.1d /
+ --add-module=./nginx-dav-ext-module
+</code></pre>
+<p>编译<br>
+<code>make</code><br>
+备份<br>
+<code>mv /usr/sbin/nginx /usr/sbin/nginx_bak</code><br>
+确认版本<br>
+<code>./objs/nginx -v</code><br>
+复制替换<br>
+<code>cp objs/nginx /usr/sbin/nginx</code></p>
+<ul>
+<li>
+<h2 id="添加server段相关配置此处定义了子目录访问配置按需调整">添加server段相关配置（此处定义了子目录访问配置,按需调整）：</h2>
+</li>
+</ul>
+<pre><code>server {
+        ...
+        ssl_protocols       TLSv1.3;
+        ssl_ciphers     TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
+
+        location /webdav {
+        # 配置索引根目录,调整目录权限为www-data
+        alias /path/to/file;
+        autoindex on;
+        autoindex_localtime on;
+        autoindex_exact_size off;
+        # 美化索引
+        # add_after_body /path/to/.autoindex.html;
+        # 解决部分webdav客户端重命名报错
+        # 须编译添加模块 headers-more-nginx-module
+        set $dest $http_destination;
+        if (-d $request_filename) {
+          rewrite ^(.*[^/])$ $1/;
+          set $dest $dest/;
+        }
+        if ($request_method ~ (MOVE|COPY)) {
+          more_set_input_headers 'Destination: $dest';
+        }
+        if ($request_method ~ MKCOL) {
+            rewrite ^(.*[^/])$ $1/ break;
+        }
+        # 口令输入提示信息
+        auth_basic &quot;user&amp;&amp;passwd&quot;;
+        # 用户口令文件
+        auth_basic_user_file /path/to/htpasswd;
+        #
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+        dav_ext_methods PROPFIND OPTIONS;
+        dav_access user:rw group:rw all:r;
+        # 临时中转目录，提高安全性
+        client_body_temp_path /tmp/webdav;
+        # 上传文件容量限制，0为不限制
+        client_max_body_size 0;   
+        create_full_put_path on;
+            }
+    error_page 404 /404.html;
+    location = /40x.html {
+        }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        }
+} 
+</code></pre>
+<p>需禁止对dirdeny目录的访问并返回403 Forbidden，可增加location段配置:</p>
+<pre><code>    location /dirdeny {
+      deny all;
+      return 403;
+        }
+</code></pre>
+<p>生成用户口令文件<code>/etc/nginx/.htpasswd</code>：</p>
+<ol>
+<li>使用<code>htpasswd -c /etc/nginx/.htpasswd username</code> 创建用户。可能需要apt-get install apache2-utils以支持htpasswd</li>
+<li>也可以使用在线htpasswd生成器 http://tool.oschina.net/htpasswd 将生成结果保存至htpasswd文件中</li>
+<li>或使用如下命令：<pre><code> # 创建新用户user
+ echo -n 'user:' | sudo tee /etc/nginx/htpasswd
+ # 设定用户密码
+ openssl passwd -apr1 | sudo tee -a /etc/nginx/htpasswd
+ Password:  # 输入用户的密码
+</code></pre>
+</li>
+</ol>
+<p>重载ngninx服务配置：<br>
+<code>service nginx restart</code><br>
+<code>service nginx status</code><br>
+即可在webdav客户端添加服务器http://example.com/webdav/ 或直接浏览器访问。</p>
+<ul>
+<li>
+<h2 id="nginx报错">Nginx报错</h2>
+</li>
+</ul>
+<p>若Nginx报错：<code>nginx.service: Failed to parse PID from file /run/nginx.pid: Invalid argument</code>或者<code>openresty.service: Failed to parse PID from file /run/openresty.pid: Invalid argument</code><br>
+可运行以下命令解决：</p>
+<pre><code>mkdir -p /etc/systemd/system/nginx.service.d
+printf &quot;[Service]\nExecStartPost=/bin/sleep 0.1\n&quot; &gt;/etc/systemd/system/nginx.service.d/override.conf
+systemctl daemon-reload
+systemctl restart nginx.service
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.chenlang.win/tag/Ubuntu/Debian/" class="tag">
+                    Ubuntu/Debian
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/初识Git资源书签/">
+                  <h3 class="post-title">
+                    初识Git资源书签
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

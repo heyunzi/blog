@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Ubuntu18搭建基于vlmcsd的kms服务 | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="
+vlmcsd项目地址
+在文件binaries.tar.gz内vlmcsd打头的用于服务端，vlmcs打头的用于检测KMS服务状态，vlmcsdmulti打头的兼具前两者功能；floppy是虚拟机镜像，可在Vitrualbox或Hyper-..." />
+    <meta name="keywords" content="Windows,Ubuntu/Debian" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Ubuntu18搭建基于vlmcsd的kms服务</h2>
+            <div class="post-date">2018-07-07 21:05:27</div>
+            
+            <div class="post-content" v-pre>
+              <ul>
+<li><a href="https://github.com/Wind4/vlmcsd">vlmcsd项目地址</a><br>
+在文件binaries.tar.gz内vlmcsd打头的用于服务端，vlmcs打头的用于检测KMS服务状态，vlmcsdmulti打头的兼具前两者功能；floppy是虚拟机镜像，可在Vitrualbox或Hyper-v中运行。</li>
+</ul>
+<h1 id="kms-server">KMS server</h1>
+<ul>
+<li>将已编译好的vlmcsd二进制文件（<code>./Linux/intel/static/vlmcsd-x64-musl-static</code>）重命名为<code>kms</code>并置于目录<code>/usr/local/</code>下，设置权限：<code>chmod 755 /usr/local/kms</code></li>
+<li>新建一个空文件用于存放pid：</li>
+</ul>
+<pre><code>cat &gt; /var/run/kms.pid &lt;&lt;EOF	
+EOF
+</code></pre>
+<ul>
+<li>新建服务<code>kms.service</code></li>
+</ul>
+<pre><code>cat &gt; /etc/systemd/system/kms.service &lt;&lt;EOF
+[Unit]
+Description=KMS Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/kms.pid
+ExecStart=/usr/local/kms -p /var/run/kms.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+</code></pre>
+<ul>
+<li>防火墙放行默认1688端口<br>
+若需自定义端口则更改执行参数<code>ExecStart=/usr/local/kms -L 0.0.0.0:8888 -p /var/run/kms.pid</code></li>
+<li>设置开机自启：<br>
+重载服务：<code>systemctl daemon-reload</code><br>
+启动服务：<code>systemctl start kms</code><br>
+设置开机启动：<code>systemctl enable kms</code><br>
+查看运行状态：<code>systemctl status kms</code></li>
+</ul>
+<h1 id="kms-client">KMS client</h1>
+<ul>
+<li>Activate Windows<br>
+<a href="https://docs.microsoft.com/zh-cn/windows-server/get-started/kmsclientkeys#windows-10-all-supported-semi-annual-channel-versions">KMS 客户端安装密钥</a><br>
+<a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN">Appendix A: KMS Client Setup Keys</a>（早期版本）<br>
+CMD命令：</li>
+</ul>
+<pre><code>wmic os get caption                                 #查看系统版本
+slmgr.vbs /upk                                      #卸载密钥 
+slmgr.vbs /ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D        #安装密钥（企业版 LTSC 2019）
+slmgr.vbs /skms Your IP or Domain                   #设置kms服务器
+slmgr.vbs /ato                                      #激活
+slmgr.vbs /xpr                                      #查看激活信息
+slmgr.vbs /dlv                                      #查看详细激活信息
+</code></pre>
+<ul>
+<li>Activate Office<br>
+<a href="https://docs.microsoft.com/zh-cn/deployoffice/vlactivation/plan-volume-activation-of-office">Office 批量激活概述</a><br>
+<a href="https://docs.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks">用于 Office 2019 和 Office 2016 的 KMS 和基于 Active Directory 激活的 GVLK</a><br>
+CMD命令：</li>
+</ul>
+<pre><code>cd &quot;C:\Program Files\Microsoft Office\Office16&quot;         #默认安装位置
+cd /d &quot;D:\Program Files\Microsoft Office\Office16&quot;      #自定义安装位置
+cscript ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP  #安装密钥（专业增强版2019）
+cscript ospp.vbs /sethst:Your IP or Domain              #设置kms服务器
+cscript ospp.vbs /act                                   #激活
+cscript ospp.vbs /dstatus                               #查看激活信息
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.chenlang.win/tag/windows/" class="tag">
+                    Windows
+                  </a>
+                
+                  <a href="https://blog.chenlang.win/tag/Ubuntu/Debian/" class="tag">
+                    Ubuntu/Debian
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/人生如记——二〇一七纪要/">
+                  <h3 class="post-title">
+                    人生如记——二〇一七纪要
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

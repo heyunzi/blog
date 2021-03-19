@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Kawasaki功能维护指令和R代码 | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="
+
+功能维护指令 z9：
+zoption_1
+镜像变换
+偏移功能
+数据变换
+工具自动登录
+基准4点变换
+绝对位置补正
+Rotation shift
+zoption_2
+固定作业点
+工件坐标
+简易码垛功能
+感测功能
+Frame correct..." />
+    <meta name="keywords" content="Robtics,Kawasaki" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Kawasaki功能维护指令和R代码</h2>
+            <div class="post-date">2019-01-28 14:04:45</div>
+            
+            <div class="post-content" v-pre>
+              <ul>
+<li>
+<p>功能维护指令 <code>z9</code>：<br>
+<code>zoption_1</code><br>
+镜像变换<br>
+偏移功能<br>
+数据变换<br>
+工具自动登录<br>
+基准4点变换<br>
+绝对位置补正<br>
+Rotation shift<br>
+<code>zoption_2</code><br>
+固定作业点<br>
+工件坐标<br>
+简易码垛功能<br>
+感测功能<br>
+Frame correction<br>
+<code>zoption_3</code><br>
+更改增益功能<br>
+柔性吸收功能<br>
+实时扰度补偿功能<br>
+程序列队<br>
+Servo Hemming Tool Control<br>
+<code>zoption_4</code><br>
+人机界面功能<br>
+专用信号使用内部信号允许<br>
+多功能OX/WX<br>
+作业空间输出功能<br>
+马达OFF错误<br>
+暂停时OX信号输出保持<br>
+数据保存功能<br>
+OX/WX信号数扩展<br>
+路径中信号输出功能<br>
+Waveform data logging function<br>
+Multiple USB memory access<br>
+<code>zoption_5</code><br>
+块速度指定<br>
+速度直接指定<br>
+加减速固定<br>
+多功能速度指定<br>
+速度指定解除<br>
+姿势角速度控制功能<br>
+速度示教类型2<br>
+精度类型2<br>
+快速检查模式<br>
+检查进给功能<br>
+<code>zoption_6</code><br>
+冲突检测功能<br>
+手臂ID<br>
+电流饱和报警功能<br>
+运转信息显示<br>
+故障预知功能<br>
+维护支持功能<br>
+制动装置检查功能<br>
+Traceability Function<br>
+<code>zoption_7</code><br>
+程序逆复制<br>
+FN命令示教<br>
+福特澳大利亚规格<br>
+KI命令示教<br>
+Teaching by Cursor Key<br>
+<code>zoption_8</code><br>
+协调动作<br>
+<code>zoption_9</code><br>
+EDI,EXE 简写输入不允许<br>
+<code>zoption_10</code><br>
+圆弧插补<br>
+辅助一体型程序手腕均分动作<br>
+<code>zoption_11</code><br>
+对于夏普PLC<br>
+继电器板<br>
+不使用操作面板的功能<br>
+<code>zoption_12</code><br>
+主机通信1<br>
+通用现场总线IO<br>
+KLogic<br>
+Cubic-S<br>
+由TP写入Cubic-S<br>
+TCP/IP Connect Reset<br>
+Teach pendant web browser</p>
+</li>
+<li>
+<p>查看部分R代码列表：R-&gt;A+help</p>
+</li>
+<li>
+<p>变更用户等级(Level 1/2/3)：R-&gt;899-&gt;输入密码9498或9894</p>
+</li>
+<li>
+<p>界面保护相关：<br>
+Aux 0802，0896，0897和0898（将1级和2级操作员设置为3级访问权限来限制可使用内容）；使用PC程序永久性地“锁定”屏幕防止访问其他区域，要使用到MAINDISP，IFPDISP 'x' （x =接口面板编号）</p>
+</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.chenlang.win/tag/Robtics/" class="tag">
+                    Robtics
+                  </a>
+                
+                  <a href="https://blog.chenlang.win/tag/Kawasaki/" class="tag">
+                    Kawasaki
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/Ubuntu18搭建基于vlmcsd的kms服务/">
+                  <h3 class="post-title">
+                    Ubuntu18搭建基于vlmcsd的kms服务
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

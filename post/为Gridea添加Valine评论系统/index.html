@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>为Gridea添加Valine评论系统 | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="Valine
+Valine(官网)是一款基于LeanCloud的快速、简洁且高效的无后端评论系统。
+LeanCloud
+获取APP-ID-和-APP-Key
+Gridea配置
+在主题模板文件head.ejs(以simple主题为例路径为/t..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">为Gridea添加Valine评论系统</h2>
+            <div class="post-date">2020-02-14 22:22:33</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="valine">Valine</h1>
+<p>Valine(<a href="https://valine.js.org/">官网</a>)是一款基于LeanCloud的快速、简洁且高效的无后端评论系统。</p>
+<h2 id="leancloud">LeanCloud</h2>
+<p><a href="https://valine.js.org/quickstart.html#%E8%8E%B7%E5%8F%96APP-ID-%E5%92%8C-APP-Key">获取APP-ID-和-APP-Key</a></p>
+<h1 id="gridea配置">Gridea配置</h1>
+<p>在主题模板文件head.ejs(以simple主题为例路径为<code>/themes\simple\templates\_blocks</code>)中添加：<code>&lt;script src='//unpkg.com/valine/dist/Valine.min.js'&gt;&lt;/script&gt;</code><br>
+在主题模板文件post.ejs(以simple主题为例路径为<code>\themes\simple\template</code>)文末代码位置处添加：</p>
+<pre><code class="language-js">&lt;div id=&quot;vcomments&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        new Valine({
+            el: '#vcomments',
+            appId: '&lt;API_ID&gt;',
+            appKey: '&lt;API_Key&gt;'
+        })
+    &lt;/script&gt;
+</code></pre>
+<p>停用原评论系统，将获取<code>appId</code>和<code>appKey</code>填入对应位置，配置完成。</p>
+<h1 id="错误信息">错误信息</h1>
+<p>由于使用了LeanCloud国际版，配置完成后页面显示<code>401</code>错误，须手动在LeanCloud<code>应用</code>-<code>存储</code>中添加一个<code>class</code>：<code>Comment</code>（<a href="https://kveln.cn/post/qE678A4ce/">参考</a>）。</p>
+<h1 id="valine-admin">Valine Admin</h1>
+<p>使用Valine Admin管理评论。<br>
+<a href="https://github.com/DesertsP/Valine-Admin">项目地址</a><br>
+<a href="https://deserts.io/valine-admin-document/">详细安装文档</a></p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/邮件和日历同步配置/">
+                  <h3 class="post-title">
+                    邮件和日历同步配置
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

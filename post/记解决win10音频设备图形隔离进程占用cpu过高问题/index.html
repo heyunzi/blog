@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>记解决win10音频设备图形隔离进程占用cpu过高问题 | 陈浪的记事本</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+<link rel="shortcut icon" href="https://blog.chenlang.win/favicon.ico">
+<link rel="stylesheet" href="https://blog.chenlang.win/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149426511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149426511-1');
+</script>
+
+
+    <meta name="description" content="DELL笔电老问题，自动安装Waves MaxxAudio Pro。此程序安装的声卡驱动并不完美，选择较高采样频率和位深度会导致cpu占用上升。
+
+占用cpu过高原因
+近期使用笔电输出音频时，发现进程win10音频设备图形隔离最高占用cpu..." />
+    <meta name="keywords" content="Windows" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.chenlang.win">
+        <img src="https://blog.chenlang.win/images/avatar.png?v=1616175223037" class="site-logo">
+        <h1 class="site-title">陈浪的记事本</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      于九渊之下,仍见星之微光。
+    </div>
+    <div class="site-footer">
+      <a href="mailto:i@chenlang.win">i@chenlang.win</a> | <a class="rss" href="https://blog.chenlang.win/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">记解决win10音频设备图形隔离进程占用cpu过高问题</h2>
+            <div class="post-date">2019-11-12 23:47:34</div>
+            
+            <div class="post-content" v-pre>
+              <p>DELL笔电老问题，自动安装<code>Waves MaxxAudio Pro</code>。此程序安装的声卡驱动并不完美，选择较高采样频率和位深度会导致cpu占用上升。</p>
+<!-- more -->
+<h2 id="占用cpu过高原因">占用cpu过高原因</h2>
+<p>近期使用笔电输出音频时，发现进程<code>win10音频设备图形隔离</code>最高占用cpu至15%。系统自动更新后将设备驱动也一起更新了，设备管理器中查看更新后的声卡设备驱动的设备描述为<code>Realtek Audio</code>，并非微软出品的<code>High Definition Audio 设备</code>。</p>
+<h2 id="卸载驱动">卸载驱动</h2>
+<p>卸载<code>Realtek Audio</code>，并勾选<code>删除此设备的驱动程序软件</code>。待系统重载，自动安装驱动<code>High Definition Audio 设备</code>。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/1.png" alt="" loading="lazy"></p>
+<h2 id="禁止声卡驱动自动更新">禁止声卡驱动自动更新</h2>
+<p>自动安装驱动<code>High Definition Audio 设备</code>后，仍可能继续更新为<code>Realtek Audio</code>。</p>
+<h3 id="打开组策略">打开组策略</h3>
+<p>Win+R --&gt; gpedit.msc</p>
+<h3 id="定位到相关设置项">定位到相关设置项</h3>
+<p>定位到<code>计算机配置</code>-<code>管理模版</code>-<code>系统</code>-<code>设备安装</code>--<code>设备安装限制</code>--<code>阻止使用与下列设备安装程序类相匹配的驱动程序安装设备</code><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/2.png" alt="" loading="lazy"></p>
+<h3 id="输入要禁用的设备类guid">输入要禁用的设备类GUID</h3>
+<p>右键<code>编辑</code>或者双击，打开设置对话框。勾选<code>已启用</code>，点击<code>显示</code>输入设备的类GUID（<code>{4d36e96c-e325-11ce-bfc1-08002be10318}</code>），应用并确定即可。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/3.png" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/4.png" alt="" loading="lazy"></p>
+<h3 id="查看类guid">查看类GUID</h3>
+<p>在<code>设备管理器</code>-<code>声音、视频和游戏控制器</code>-<code>High Definition Audio 设备</code>，右键打开<code>属性</code>-<code>详细信息</code>，即可找到对应的数据。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/5.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.chenlang.win/tag/windows/" class="tag">
+                    Windows
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.chenlang.win/post/唯一能做的就是把握当下/">
+                  <h3 class="post-title">
+                    唯一能做的就是把握当下
+                  </h3>
+                </a>
+              </div>
+            
+
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

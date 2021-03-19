@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blog.chenlang.win</id>
+    <title>陈浪的记事本</title>
+    <updated>2021-03-19T17:33:46.264Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blog.chenlang.win"/>
+    <link rel="self" href="https://blog.chenlang.win/atom.xml"/>
+    <subtitle>于九渊之下,仍见星之微光。</subtitle>
+    <logo>https://blog.chenlang.win/images/avatar.png</logo>
+    <icon>https://blog.chenlang.win/favicon.ico</icon>
+    <rights>All rights reserved 2021, 陈浪的记事本</rights>
+    <entry>
+        <title type="html"><![CDATA[Tecnomatix安装避坑记录(Process Designer, Process Simulate)]]></title>
+        <id>https://blog.chenlang.win/post/Tecnomatix-Setup-Log/</id>
+        <link href="https://blog.chenlang.win/post/Tecnomatix-Setup-Log/">
+        </link>
+        <updated>2021-01-19T14:15:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>Tecnomatix Setup Log</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Tecnomatix Setup Log</p>
+<!-- more -->
+<p>以Tecnomatix版本15.1.2为记录，官网<a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index">帮助索引</a>。</p>
+<h2 id="安装环境检查">安装环境检查</h2>
+<h3 id="tecnomatix-支持的操作系统">Tecnomatix 支持的操作系统</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1168998:Supported_Operating_Systems_1%3E">参考</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Operating System - 64bit / CPU x86-64</th>
+<th style="text-align:left">Tecnomatix 14.0, 14.0.1, 14.0.2, 14.1</th>
+<th style="text-align:left">Tecnomatix 14.1.1, 14.1.2, 15.0, 15.0.1, 15.0.2, 15.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Windows 7 - Enterprise edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 8.1 - Enterprise edition</td>
+<td style="text-align:left">Limited support</td>
+<td style="text-align:left">Limited support</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 10 - Enterprise edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2008 R2 SP1 - Standard edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2012 R2 - Standard edition</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows Server 2016 - Standard edition</td>
+<td style="text-align:left">Not supported</td>
+<td style="text-align:left">Supported</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tecnomatix数据库兼容性列表">Tecnomatix数据库兼容性列表</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1016872">参考</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tecnomatix version</th>
+<th style="text-align:left">Oracle 12.1.0.2 EE/SE</th>
+<th style="text-align:left">Oracle 12.2.0.1 EE/SE</th>
+<th style="text-align:left">Oracle 18.0.0 EE/SE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">14.0</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.0.2</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 1</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">14.1.2, 15.0</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2,3</td>
+<td style="text-align:left">Not supported</td>
+</tr>
+<tr>
+<td style="text-align:left">15.0.1, 15.0.2, 15.1</td>
+<td style="text-align:left">Supported</td>
+<td style="text-align:left">Supported 2,3</td>
+<td style="text-align:left">Supported 2,3,4</td>
+</tr>
+<tr>
+<td style="text-align:left">1.Oracle Server is certified, Oracle client has to be 12.1.0.2   2.ODAC (including ‘Oracle Data Provider for .NET’) should be installed   3.Pluggable databases are certified   4.Oracle Server is certified, Oracle client has to be 12.1.0.2 or 12.2.0.1</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="配置客户端和服务器环境">配置客户端和服务器环境</h3>
+<h4 id="在windows-10上将中文设置为操作系统语言">在Windows 10上将中文设置为操作系统语言</h4>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1553952">参考</a><br>
+为了确保Oracle数据库环境与eMS及客户端与服务器环境兼容，检查客户端计算机上的“用户区域设置”（来自“区域”设置）是否与服务器（eMSAgent）计算机上的“系统区域设置”（来自“区域”设置）相同。</p>
+<ul>
+<li>对于Windows 10，使用控制面板中的“区域和语言”设置将“格式”语言设置为“简体中文”。</li>
+<li>在“管理”选项卡中，使用“更改系统区域设置”选项将语言设置为“简体中文”（如果尚未设置）。</li>
+</ul>
+<h4 id="确定要用于非unicode程序的语言">确定要用于非Unicode程序的语言</h4>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1016807">参考</a><br>
+使用以下步骤来确保正确设置环境：</p>
+<ul>
+<li>验证是否在“区域和语言”对话框的“管理”选项卡的“非Unicode程序的当前语言”部分中设置了所需的语言。</li>
+<li>如果不是这种情况，使用“管理”选项卡的“更改系统区域设置”按钮设置所需的语言。</li>
+<li>验证“区域和语言”对话框的“格式”选项卡的“格式”部分中的条目与所需的语言相同。</li>
+<li>如果不是，在“格式”部分中设置所需的语言。</li>
+<li>在“区域和语言”对话框的“管理”选项卡中，单击“复制设置”以打开“欢迎”屏幕和新的用户帐户设置对话框。</li>
+<li>在“区域和语言”对话框中，检查“欢迎”屏幕和系统帐户以及“新用户帐户”选项。</li>
+<li>单击确定按钮以实现欢迎屏幕和新的用户帐户设置。</li>
+<li>重新启动计算机（在应用“复制设置”之后，这是必要操作）。</li>
+</ul>
+<h2 id="安装依赖">安装依赖</h2>
+<h3 id="安装-java-8">安装 Java 8</h3>
+<p><a href="https://docs.plm.automation.siemens.com/tdoc/tecnomatix/15.1/tecnomatix_eMS#uid:index_xid1104701:xid1168998:xid1009457">参考</a><br>
+Siemens PLM Software不再随Tecnomatix提供Java Runtime Environment（JRE）。在安装Tecnomatix之前，必须下载并安装JRE 8。</p>
+<h4 id="导航到下载页面下载java">导航到<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">下载页面</a>下载Java</h4>
+<ul>
+<li>在资源管理器中，右键单击下载的文件。在显示的菜单中，选择以管理员身份运行。</li>
+<li>在“欢迎使用Java”屏幕中，单击“安装”（不勾选“更改目标文件夹”）。</li>
+<li>JRE完成安装后，将显示“您已成功安装Java”屏幕。单击关闭。</li>
+<li>Windows 64位的默认位置：C:\Program Files (x86)\Java\jre7 or jre8\</li>
+</ul>
+<h4 id="确保java参数正确">确保Java参数正确</h4>
+<p>对于Windows 64位</p>
+<ul>
+<li>JRE_HOME= C:\Program Files (x86)\Java\jre7</li>
+<li>JRE64_HOME= C:\Program Files\Java\jre7</li>
+</ul>
+<h3 id="安装-perl">安装 Perl</h3>
+<p><a href="https://www.perl.org/get.html">下载页面</a><br>
+使用Perl 脚本创建Oracle 数据库。</p>
+<h2 id="安装流程">安装流程</h2>
+<p>检查上述安装环境无误后即可开始Process Designer、Process Simulate的安装。<br>
+JRE --&gt; Perl --&gt; Oracle--&gt;Database Instance Creation --&gt;Process Designer, Process Simulate Setup --&gt;initdb --&gt; Oracle Net Manager--&gt; Association Database --&gt; Check Llicense --&gt; End</p>
+<h2 id="未完待更">未完待更</h2>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于Funuc手工编写LS程序的说明]]></title>
+        <id>https://blog.chenlang.win/post/关于Funuc手工编写LS程序的说明/</id>
+        <link href="https://blog.chenlang.win/post/关于Funuc手工编写LS程序的说明/">
+        </link>
+        <updated>2020-03-17T13:51:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>参考文档 rjprogramtranseg.chm</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>参考文档 rjprogramtranseg.chm</p>
+<!-- more -->
+<ul>
+<li>/ PROG 区域中的程序名和文本文件名必须相同。</li>
+<li>可在程序区域（/ PROG）中的程序名称后指定一个子类型，例如“ PROCESS”，“ JOB”，“ MACRO”，“ COND”；不指定时，程序子类型处于未定义状态。</li>
+<li>宏名称不能含有空格或与助记符指令相同，例如“ hand_open”，“ hand_close”，“ END”：</li>
+</ul>
+<pre><code>/PROG DEMO  JOB
+</code></pre>
+<ul>
+<li>参数名称中不能含有任何空格。</li>
+<li>可省略全部或部分程序属性区域（/ ATTR）：</li>
+</ul>
+<pre><code>/PROG  DEMO1
+/MN
+        1:  IF R[1]=1, CALL DEMO2;
+                         .
+                         .
+                         .
+</code></pre>
+<pre><code>/PROG  DEMO2
+/ATTR
+COMMENT = &quot;&quot;;
+DEFAULT_GROUP  = 1,1,*,*,*;
+/MN
+        1:  IF R[1]=1, CALL DEMO3;
+                         .
+                         .
+                         .
+</code></pre>
+<ul>
+<li>指定“ DEFAULT_GROUP”来使用其他运动组：</li>
+</ul>
+<pre><code>DEFAULT_GROUP = 1，1，*，*，*;
+</code></pre>
+<ul>
+<li>可在应用程序数据区域（/ APPL）指定不同应用设备编号：<br>
+Spot Welding：</li>
+</ul>
+<pre><code>/APPL
+    Spot Welding Equipment Number : n
+//（n&gt; = 1）
+</code></pre>
+<p>Arc Welding：</p>
+<pre><code>/APPL
+    Arc Welding Equipment Number : n
+//(n &gt;= 1)
+</code></pre>
+<p>Sealing：</p>
+<pre><code>/APPL
+    ANALOG PRO-FLO Equipment Number : n
+//（1 &lt;= n &lt;= 5）
+</code></pre>
+<p>Intellitrak Schedule：</p>
+<pre><code>/APPL
+    Intellitrak Schedule Number : n
+//（n &gt;= 0）默认计划编号为1,若未指定则无法使用示教器进行设置
+</code></pre>
+<ul>
+<li>程序主体区域（/ MN）中的行号不必正确设置，且可忽略。</li>
+<li>可在程序主体区域（/ MN）中省略I / O、寄存器、位置寄存器和托盘寄存器指令的注释；即使已指定，加载时也将被忽略；加载TP文件后，R-J的注释不会更改。</li>
+<li>可省略程序主体区域（/ MN）中的位置注释。即使已指定，加载时也将被忽略并使用位置数据区域（/ POS）中的位置注释。</li>
+</ul>
+<pre><code>/POS
+P[1:&quot;WAIT POS&quot;]{
+GP1:
+UF : 0, UT : 1, CONFIG : 'N, 0, 0, 0',
+X =  1680.00  mm, Y =     0.00  mm, Z = 1190.00  mm,
+W =  -180.00 deg, P =   -90.00 deg, R =     0.00 deg
+};
+</code></pre>
+<ul>
+<li>如果在位置数据区（/ POS）中未定义程序主体区（/ MN）中运动语句使用的位置数据，则该数据处于未定义状态。</li>
+<li>Kana version R-J可能无法加载TP文件。可将其扩展名TP更改为MN后再加载。</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[相信未来]]></title>
+        <id>https://blog.chenlang.win/post/相信未来/</id>
+        <link href="https://blog.chenlang.win/post/相信未来/">
+        </link>
+        <updated>2020-02-24T10:36:01.000Z</updated>
+        <content type="html"><![CDATA[<p>或许是自闭了太久，刷到南京市民李先生的新微博<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>竟然有些激动。自去年二月叁叁肆四川巡演因“行为不端<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>”被取消，我对当时工作的不满伴随着因此事件不能看到现场演出的失落感而加剧，而后辞职找不到方向一直在房间抑郁；恰逢前几日新东家打来电话，看到李志的无恙似乎又带给我积极生活的希望。<br>
+　　在上一年的生活中我想去寻求改变和突破，另一方面又很清楚许多既定事实确已无法改变。就在这样的矛盾挣扎中终日在房间抑郁不能。我不知道是源于学生时期对心理学的初略认知给了我自救的机会，还是我本身就不是一个悲观的人，又或者我只是纯粹的面对生活重压不知所措。总而言之，那段时间总算过去了。<br>
+　　江青说，相信未来，就是否定现在。纵然诸多事与愿违。春暖花开，新一年新东家，盼自己也能积极拥抱未来，摆脱当下困境。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>https://share.chenlang.workers.dev/blog/pic/相信未来/334tour-weibo-2020-02-24-1.png <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>https://share.chenlang.workers.dev/blog/pic/相信未来/334tour-sichuan-cancel.jpg <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[为Gridea添加Valine评论系统]]></title>
+        <id>https://blog.chenlang.win/post/为Gridea添加Valine评论系统/</id>
+        <link href="https://blog.chenlang.win/post/为Gridea添加Valine评论系统/">
+        </link>
+        <updated>2020-02-14T14:22:33.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="valine">Valine</h1>
+<p>Valine(<a href="https://valine.js.org/">官网</a>)是一款基于LeanCloud的快速、简洁且高效的无后端评论系统。</p>
+<h2 id="leancloud">LeanCloud</h2>
+<p><a href="https://valine.js.org/quickstart.html#%E8%8E%B7%E5%8F%96APP-ID-%E5%92%8C-APP-Key">获取APP-ID-和-APP-Key</a></p>
+<h1 id="gridea配置">Gridea配置</h1>
+<p>在主题模板文件head.ejs(以simple主题为例路径为<code>/themes\simple\templates\_blocks</code>)中添加：<code>&lt;script src='//unpkg.com/valine/dist/Valine.min.js'&gt;&lt;/script&gt;</code><br>
+在主题模板文件post.ejs(以simple主题为例路径为<code>\themes\simple\template</code>)文末代码位置处添加：</p>
+<pre><code class="language-js">&lt;div id=&quot;vcomments&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        new Valine({
+            el: '#vcomments',
+            appId: '&lt;API_ID&gt;',
+            appKey: '&lt;API_Key&gt;'
+        })
+    &lt;/script&gt;
+</code></pre>
+<p>停用原评论系统，将获取<code>appId</code>和<code>appKey</code>填入对应位置，配置完成。</p>
+<h1 id="错误信息">错误信息</h1>
+<p>由于使用了LeanCloud国际版，配置完成后页面显示<code>401</code>错误，须手动在LeanCloud<code>应用</code>-<code>存储</code>中添加一个<code>class</code>：<code>Comment</code>（<a href="https://kveln.cn/post/qE678A4ce/">参考</a>）。</p>
+<h1 id="valine-admin">Valine Admin</h1>
+<p>使用Valine Admin管理评论。<br>
+<a href="https://github.com/DesertsP/Valine-Admin">项目地址</a><br>
+<a href="https://deserts.io/valine-admin-document/">详细安装文档</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[邮件和日历同步配置]]></title>
+        <id>https://blog.chenlang.win/post/邮件和日历同步配置/</id>
+        <link href="https://blog.chenlang.win/post/邮件和日历同步配置/">
+        </link>
+        <updated>2020-01-08T11:57:23.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="outlook">Outlook</h1>
+<h2 id="popimapsmtp">POP/IMAP/SMTP</h2>
+<p>POP<br>
+服务器名称: outlook.office365.com<br>
+端口: 995<br>
+加密方法: TLS</p>
+<p>IMAP<br>
+服务器名称: outlook.office365.com<br>
+端口: 993<br>
+加密方法: TLS</p>
+<p>SMTP<br>
+服务器名称: smtp.office365.com<br>
+端口: 587<br>
+加密方法: STARTTLS</p>
+<h1 id="zoho">Zoho</h1>
+<h2 id="exchange">Exchange</h2>
+<p><a href="https://www.zoho.com/mail/help/zoho-mail-active-sync.html">Zoho Mail - Exchange Activesync</a></p>
+<p>Incoming Server Name: msync.zoho.com<br>
+Username: you@yourdomain.com<br>
+Password: Enter your Zoho account password.</p>
+<h2 id="popimapsmtp-2">POP/IMAP/SMTP</h2>
+<p><a href="https://www.zoho.com/mail/help/pop-access.html#alink1">Zoho Mail POP Server Details</a><br>
+<a href="https://www.zoho.com/mail/help/imap-access.html#alink1">Zoho Mail IMAP Server Details</a><br>
+Organization Users:</p>
+<p>Incoming Server Name: poppro.zoho.com<br>
+Port: 995<br>
+Require SSL: Yes<br>
+Username: you@yourdomain.com</p>
+<p>Incoming Server Name: imappro.zoho.com<br>
+Port: 993<br>
+Require SSL: Yes<br>
+Username: you@yourdomain.com</p>
+<p>Outgoing Server Name: smtp.zoho.com<br>
+Port: 465 with SSL or<br>
+Port: 587 with TLS<br>
+Require Authentication: Yes</p>
+<h2 id="calendar">Calendar</h2>
+<p><a href="https://www.zoho.com/calendar/help/syncing-calendars.html">Syncing Calendars</a></p>
+<h3 id="thunderbird-lightning">Thunderbird Lightning</h3>
+<p><a href="https://www.zoho.com/calendar/help/caldav-sync-zoho-calendar.html#alink3">To configure CalDAV sync for Thunderbird Lightning</a><br>
+Choose the CalDAV format and enter the location URL as &quot;https://calendar.zoho.com/caldav/Calendar ID/events&quot;</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[记解决win10音频设备图形隔离进程占用cpu过高问题]]></title>
+        <id>https://blog.chenlang.win/post/记解决win10音频设备图形隔离进程占用cpu过高问题/</id>
+        <link href="https://blog.chenlang.win/post/记解决win10音频设备图形隔离进程占用cpu过高问题/">
+        </link>
+        <updated>2019-11-12T15:47:34.000Z</updated>
+        <summary type="html"><![CDATA[<p>DELL笔电老问题，自动安装<code>Waves MaxxAudio Pro</code>。此程序安装的声卡驱动并不完美，选择较高采样频率和位深度会导致cpu占用上升。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>DELL笔电老问题，自动安装<code>Waves MaxxAudio Pro</code>。此程序安装的声卡驱动并不完美，选择较高采样频率和位深度会导致cpu占用上升。</p>
+<!-- more -->
+<h2 id="占用cpu过高原因">占用cpu过高原因</h2>
+<p>近期使用笔电输出音频时，发现进程<code>win10音频设备图形隔离</code>最高占用cpu至15%。系统自动更新后将设备驱动也一起更新了，设备管理器中查看更新后的声卡设备驱动的设备描述为<code>Realtek Audio</code>，并非微软出品的<code>High Definition Audio 设备</code>。</p>
+<h2 id="卸载驱动">卸载驱动</h2>
+<p>卸载<code>Realtek Audio</code>，并勾选<code>删除此设备的驱动程序软件</code>。待系统重载，自动安装驱动<code>High Definition Audio 设备</code>。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/1.png" alt="" loading="lazy"></p>
+<h2 id="禁止声卡驱动自动更新">禁止声卡驱动自动更新</h2>
+<p>自动安装驱动<code>High Definition Audio 设备</code>后，仍可能继续更新为<code>Realtek Audio</code>。</p>
+<h3 id="打开组策略">打开组策略</h3>
+<p>Win+R --&gt; gpedit.msc</p>
+<h3 id="定位到相关设置项">定位到相关设置项</h3>
+<p>定位到<code>计算机配置</code>-<code>管理模版</code>-<code>系统</code>-<code>设备安装</code>--<code>设备安装限制</code>--<code>阻止使用与下列设备安装程序类相匹配的驱动程序安装设备</code><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/2.png" alt="" loading="lazy"></p>
+<h3 id="输入要禁用的设备类guid">输入要禁用的设备类GUID</h3>
+<p>右键<code>编辑</code>或者双击，打开设置对话框。勾选<code>已启用</code>，点击<code>显示</code>输入设备的类GUID（<code>{4d36e96c-e325-11ce-bfc1-08002be10318}</code>），应用并确定即可。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/3.png" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/4.png" alt="" loading="lazy"></p>
+<h3 id="查看类guid">查看类GUID</h3>
+<p>在<code>设备管理器</code>-<code>声音、视频和游戏控制器</code>-<code>High Definition Audio 设备</code>，右键打开<code>属性</code>-<code>详细信息</code>，即可找到对应的数据。<br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E8%AE%B0%E8%A7%A3%E5%86%B3win10%E9%9F%B3%E9%A2%91%E8%AE%BE%E5%A4%87%E5%9B%BE%E5%BD%A2%E9%9A%94%E7%A6%BB%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8cpu%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/5.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[唯一能做的就是把握当下]]></title>
+        <id>https://blog.chenlang.win/post/唯一能做的就是把握当下/</id>
+        <link href="https://blog.chenlang.win/post/唯一能做的就是把握当下/">
+        </link>
+        <updated>2019-11-08T12:32:57.000Z</updated>
+        <content type="html"><![CDATA[<p>为什么不愿提及过去呢？因为有太多难处。为什么不愿畅想未来，因为有太多的不确定性。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[安装File Browser及配置Nginx]]></title>
+        <id>https://blog.chenlang.win/post/安装File Browser及配置Nginx/</id>
+        <link href="https://blog.chenlang.win/post/安装File Browser及配置Nginx/">
+        </link>
+        <updated>2019-10-01T20:37:41.000Z</updated>
+        <content type="html"><![CDATA[<p>环境：Debian10+Nginx/1.14.2+tls</p>
+<p>在搭建好基于nginx的webdav服务后，发现几个挂载的bug，比如不能新建文件夹、不能重命名文件夹、不能显示名称中含中括号对&quot;[]&quot;的文件夹或文件。又不能舍弃webdav方便同步，无奈只好找到File Browser弥补缺陷了。</p>
+<h2 id="file-browser安装">File Browser安装</h2>
+<p>官方地址：<code>https://filebrowser.xyz/</code></p>
+<h3 id="快速安装">快速安装</h3>
+<p><code>curl -fsSL https://filebrowser.xyz/get.sh | bash</code></p>
+<h3 id="快速启动file-browser">快速启动File Browser</h3>
+<p>参数分别是监听地址(-a)、端口(-p)，文件索引根目录(-r)，数据库存放路径(-d)<br>
+<code>filebrowser -a 127.0.0.1 -p 8888 -r /path/to/file -d /path/to/filebrowser.db</code><br>
+此时即可以<code>http://&lt;ip&gt;:8888</code> 访问，管理员用户名和密码均为admin。</p>
+<h3 id="开机自启">开机自启</h3>
+<p>运行<code>command=&quot;-a 127.0.0.1 -p 8888 -r /path/to/file -d /path/to/filebrowser.db&quot;</code><br>
+以及：</p>
+<pre><code>cat &gt; /etc/systemd/system/filebrowser.service &lt;&lt;EOF
+[Unit]
+Description=filebrowser
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=$(command -v filebrowser) $command
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+</code></pre>
+<p>重载服务配置及运行：</p>
+<pre><code>systemctl daemon-reload
+systemctl start filebrowser
+systemctl enable filebrowser
+systemctl status filebrowser
+</code></pre>
+<h2 id="nginx-反向代理配置">Nginx 反向代理配置</h2>
+<p>由于此vps已配置基于nginx+ws+tls的v2fly服务，索性尝试nginx反代File Browser服务。</p>
+<h3 id="添加location段配置如下">添加location段，配置如下：</h3>
+<pre><code>server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  example1.com www.example1.com;
+        rewrite      ^(.*)$ https://example2.com$1 permanent;
+            }
+server {
+  listen  443 ssl http2;
+  listen  [::]:443 ssl http2;
+  ssl on;
+  ssl_certificate       /path/to/ecc.crt;
+  ssl_certificate_key   /path/to/ecc.key;
+  ssl_certificate       /path/to/rsa.crt;
+  ssl_certificate_key   /path/to/rsa.key;
+  ssl_protocols         TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers           HIGH:!aNULL:!MD5;
+  root                  /var/www/html;
+  index                 index.html index.htm;
+  charset               utf-8;
+  server_name           example2.com;
+        # filebrowser
+        location /filebrowser/ {
+        client_max_body_size                0;
+        proxy_read_timeout                  10s;
+        proxy_send_timeout                  10s;
+        proxy_set_header                    X-Forwarded-Host $host;
+        proxy_set_header                    X-Forwarded-Server $host;
+        proxy_set_header                    X-Real-IP $remote_addr;
+        proxy_set_header                    Host $host;
+        proxy_set_header                    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version                  1.1;
+        proxy_redirect                      off;
+        proxy_set_header                    Upgrade $http_upgrade;
+        proxy_set_header                    Connection &quot;upgrade&quot;;
+        proxy_pass                          http://127.0.0.1:8888/;
+        }    
+       
+  error_page 404 /404.html;
+  location = /40x.html {
+        }
+    }
+</code></pre>
+<h3 id="重载nginx服务">重载nginx服务：</h3>
+<pre><code>service nginx reload
+service nginx restart
+service nginx status
+</code></pre>
+<p>此时即可访问<code>http://example2.com/filebrowser/</code> 管理文件。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[配置基于Nginx的WebDav服务]]></title>
+        <id>https://blog.chenlang.win/post/配置基于Nginx的WebDav服务/</id>
+        <link href="https://blog.chenlang.win/post/配置基于Nginx的WebDav服务/">
+        </link>
+        <updated>2019-09-30T16:28:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>配置 WebDav 和 TLS1.3</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>配置 WebDav 和 TLS1.3</p>
+<!-- more -->
+<p>环境：Debian10+Nginx/1.16.1</p>
+<ul>
+<li>
+<h2 id="编译nginx">编译Nginx</h2>
+</li>
+</ul>
+<p>检查Nginx版本：<br>
+<code>nginx -V</code><br>
+确认已安装所需依赖：</p>
+<pre><code>apt install zlib1g-dev
+apt install libgd-dev
+apt install libgeoip-dev
+</code></pre>
+<p>支持WebDav需要<code>with-http_dav_module</code>和<code>nginx-dav-ext-module</code>两个模块。<br>
+获取Nginx：<br>
+<code>wget -c https://nginx.org/download/nginx-1.16.1.tar.gz &amp;&amp; tar zxf nginx-1.16.1.tar.gz &amp;&amp; rm nginx-1.16.1.tar.gz</code><br>
+进入nginx源码目录，下载所需模块源码以供编译：<br>
+nginx-dav-ext-module<br>
+<code>git clone https://github.com/arut/nginx-dav-ext-module.git</code><br>
+headers-more-nginx-module<br>
+<code>git clone https://github.com/openresty/headers-more-nginx-module.git</code><br>
+支持TLS 1.3协定的OpenSSL版本<br>
+<code>wget -c https://www.openssl.org/source/openssl-1.1.1d.tar.gz &amp;&amp; tar zxf openssl-1.1.1d.tar.gz &amp;&amp; rm openssl-1.1.1d.tar.gz</code></p>
+<p>修改编译参数：</p>
+<pre><code>./configure --add-module=./headers-more-nginx-module /
+ --with-openssl=./openssl-1.1.1d /
+ --add-module=./nginx-dav-ext-module
+</code></pre>
+<p>编译<br>
+<code>make</code><br>
+备份<br>
+<code>mv /usr/sbin/nginx /usr/sbin/nginx_bak</code><br>
+确认版本<br>
+<code>./objs/nginx -v</code><br>
+复制替换<br>
+<code>cp objs/nginx /usr/sbin/nginx</code></p>
+<ul>
+<li>
+<h2 id="添加server段相关配置此处定义了子目录访问配置按需调整">添加server段相关配置（此处定义了子目录访问配置,按需调整）：</h2>
+</li>
+</ul>
+<pre><code>server {
+        ...
+        ssl_protocols       TLSv1.3;
+        ssl_ciphers     TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
+
+        location /webdav {
+        # 配置索引根目录,调整目录权限为www-data
+        alias /path/to/file;
+        autoindex on;
+        autoindex_localtime on;
+        autoindex_exact_size off;
+        # 美化索引
+        # add_after_body /path/to/.autoindex.html;
+        # 解决部分webdav客户端重命名报错
+        # 须编译添加模块 headers-more-nginx-module
+        set $dest $http_destination;
+        if (-d $request_filename) {
+          rewrite ^(.*[^/])$ $1/;
+          set $dest $dest/;
+        }
+        if ($request_method ~ (MOVE|COPY)) {
+          more_set_input_headers 'Destination: $dest';
+        }
+        if ($request_method ~ MKCOL) {
+            rewrite ^(.*[^/])$ $1/ break;
+        }
+        # 口令输入提示信息
+        auth_basic &quot;user&amp;&amp;passwd&quot;;
+        # 用户口令文件
+        auth_basic_user_file /path/to/htpasswd;
+        #
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+        dav_ext_methods PROPFIND OPTIONS;
+        dav_access user:rw group:rw all:r;
+        # 临时中转目录，提高安全性
+        client_body_temp_path /tmp/webdav;
+        # 上传文件容量限制，0为不限制
+        client_max_body_size 0;   
+        create_full_put_path on;
+            }
+    error_page 404 /404.html;
+    location = /40x.html {
+        }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        }
+} 
+</code></pre>
+<p>需禁止对dirdeny目录的访问并返回403 Forbidden，可增加location段配置:</p>
+<pre><code>    location /dirdeny {
+      deny all;
+      return 403;
+        }
+</code></pre>
+<p>生成用户口令文件<code>/etc/nginx/.htpasswd</code>：</p>
+<ol>
+<li>使用<code>htpasswd -c /etc/nginx/.htpasswd username</code> 创建用户。可能需要apt-get install apache2-utils以支持htpasswd</li>
+<li>也可以使用在线htpasswd生成器 http://tool.oschina.net/htpasswd 将生成结果保存至htpasswd文件中</li>
+<li>或使用如下命令：<pre><code> # 创建新用户user
+ echo -n 'user:' | sudo tee /etc/nginx/htpasswd
+ # 设定用户密码
+ openssl passwd -apr1 | sudo tee -a /etc/nginx/htpasswd
+ Password:  # 输入用户的密码
+</code></pre>
+</li>
+</ol>
+<p>重载ngninx服务配置：<br>
+<code>service nginx restart</code><br>
+<code>service nginx status</code><br>
+即可在webdav客户端添加服务器http://example.com/webdav/ 或直接浏览器访问。</p>
+<ul>
+<li>
+<h2 id="nginx报错">Nginx报错</h2>
+</li>
+</ul>
+<p>若Nginx报错：<code>nginx.service: Failed to parse PID from file /run/nginx.pid: Invalid argument</code>或者<code>openresty.service: Failed to parse PID from file /run/openresty.pid: Invalid argument</code><br>
+可运行以下命令解决：</p>
+<pre><code>mkdir -p /etc/systemd/system/nginx.service.d
+printf &quot;[Service]\nExecStartPost=/bin/sleep 0.1\n&quot; &gt;/etc/systemd/system/nginx.service.d/override.conf
+systemctl daemon-reload
+systemctl restart nginx.service
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[初识Git资源书签]]></title>
+        <id>https://blog.chenlang.win/post/初识Git资源书签/</id>
+        <link href="https://blog.chenlang.win/post/初识Git资源书签/">
+        </link>
+        <updated>2019-09-10T12:58:06.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>Quoting Linus: &quot;I'm an egotistical bastard, and I name all my projects after myself. First 'Linux', now 'Git'&quot;.</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>Quoting Linus: &quot;I'm an egotistical bastard, and I name all my projects after myself. First 'Linux', now 'Git'&quot;.</p>
+</blockquote>
+<!-- more -->
+<ul>
+<li>在线资源<br>
+<a href="https://git-scm.com">Git官网</a><br>
+<a href="https://git-scm.com/book/zh/v2">Pro Git 2nd Edition (2014)</a><br>
+<a href="https://git.wiki.kernel.org/index.php/Git_FAQ">Git FAQ</a><br>
+<a href="https://share.chenlang.workers.dev/blog/doc/git/progit_v2.1.28.pdf">Pro Git 2下载</a><br>
+<a href="https://share.chenlang.workers.dev/blog/doc/git/git-cheatsheet.pdf">常用命令表格</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[添加TunnelBroker隧道提供IPv6访问]]></title>
+        <id>https://blog.chenlang.win/post/添加TunnelBroker隧道提供IPv6访问/</id>
+        <link href="https://blog.chenlang.win/post/添加TunnelBroker隧道提供IPv6访问/">
+        </link>
+        <updated>2019-08-20T19:48:34.000Z</updated>
+        <content type="html"><![CDATA[<p>1、登录https://www.tunnelbroker.net/register.php 注册，然后在邮件里认证。</p>
+<p>2、Create Regular Tunnel<br>
+IPv4 Endpoint (Your side):填写你的ipv4。<br>
+注意服务器不要禁ping否则会报错：<br>
+IP is not ICMP pingable. Please make sure ICMP is not blocked.<br>
+If you are blocking ICMP, please allow 66.220.2.74 through your firewall.</p>
+<p>3、隧道服务器，默认选择 Los Angeles, CA, US</p>
+<p>4、点击Create Tunnel<br>
+可以看到自己刚才输入的ipv4及ipv6。</p>
+<p>5、点击Example Configurations，查看OS配置示例</p>
+<p>6、vps配置——Ubuntu添加一个ipv6的interfaces<br>
+Paste the following into /etc/network/interfaces:</p>
+<pre><code>auto he-ipv6
+iface he-ipv6 inet6 v4tunnel
+        address 2001:470:1f06:208::2
+        netmask 64
+        endpoint 209.51.161.14
+        local 23.94.7.124
+        ttl 255
+        gateway 2001:470:1f06:208::1
+</code></pre>
+<p>重启networking</p>
+<pre><code>service networking restart
+</code></pre>
+<p>测试ipv6</p>
+<pre><code>ping6 google.com
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[生活是苦难的，我又划着我的断桨出发了]]></title>
+        <id>https://blog.chenlang.win/post/生活是苦难的，我又划着我的断桨出发了/</id>
+        <link href="https://blog.chenlang.win/post/生活是苦难的，我又划着我的断桨出发了/">
+        </link>
+        <updated>2019-05-11T16:11:41.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>这次你离开了没有像以前那样说再见<br>
+再见也他妈的只是再见<br>
+我们之间从来没有想象的那么接近<br>
+只是两棵树的距离</p>
+</blockquote>
+<div style="text-align: right">——《山阴路的夏天》 </div>]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>这次你离开了没有像以前那样说再见<br>
+再见也他妈的只是再见<br>
+我们之间从来没有想象的那么接近<br>
+只是两棵树的距离</p>
+</blockquote>
+<div style="text-align: right">——《山阴路的夏天》 </div>
+<!-- more -->
+<p><img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664232108.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247788.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247791.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247796.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247803.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247806.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247811.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247817.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247820.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247825.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247829.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247835.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247839.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247844.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247860.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247865.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247881.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247897.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247917.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247933.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247947.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247952.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247955.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247960.jpg" alt="" loading="lazy"><br>
+<img src="https://share.chenlang.workers.dev/blog/pic/%E7%94%9F%E6%B4%BB%E6%98%AF%E8%8B%A6%E9%9A%BE%E7%9A%84/1566664247965.jpg" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu开启BBR记录]]></title>
+        <id>https://blog.chenlang.win/post/Ubuntu开启BBR记录/</id>
+        <link href="https://blog.chenlang.win/post/Ubuntu开启BBR记录/">
+        </link>
+        <updated>2019-02-02T19:23:27.000Z</updated>
+        <summary type="html"><![CDATA[<p>Google 开源了TCP BBR拥塞控制算法，从Linux Kernel 4.9 版本开始已内置该算法。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Google 开源了TCP BBR拥塞控制算法，从Linux Kernel 4.9 版本开始已内置该算法。</p>
+<!-- more -->
+<p>开启bbr</p>
+<ol>
+<li>查看内核版本</li>
+</ol>
+<pre><code>uname -r
+</code></pre>
+<ol start="2">
+<li>修改系统变量</li>
+</ol>
+<pre><code>echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf
+</code></pre>
+<pre><code>echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf
+</code></pre>
+<ol start="3">
+<li>保存生效</li>
+</ol>
+<pre><code>sysctl -p
+</code></pre>
+<p>显示如下结果：<br>
+kernel.panic = 10<br>
+net.ipv6.conf.all.disable_ipv6 = 1<br>
+net.core.default_qdisc = fq<br>
+net.ipv4.tcp_congestion_control = bbr</p>
+<ol start="4">
+<li>查看内核是否已开启BBR</li>
+</ol>
+<pre><code>sysctl net.ipv4.tcp_available_congestion_control
+</code></pre>
+<p>显示以下即已开启：<br>
+net.ipv4.tcp_available_congestion_control = bbr cubic reno</p>
+<ol start="5">
+<li>查看BBR是否启动</li>
+</ol>
+<pre><code>lsmod | grep bbr
+</code></pre>
+<p>显示以下即启动成功：<br>
+tcp_bbr                20480  8</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kawasaki功能维护指令和R代码]]></title>
+        <id>https://blog.chenlang.win/post/Kawasaki功能维护指令和R代码/</id>
+        <link href="https://blog.chenlang.win/post/Kawasaki功能维护指令和R代码/">
+        </link>
+        <updated>2019-01-28T06:04:45.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>
+<p>功能维护指令 <code>z9</code>：<br>
+<code>zoption_1</code><br>
+镜像变换<br>
+偏移功能<br>
+数据变换<br>
+工具自动登录<br>
+基准4点变换<br>
+绝对位置补正<br>
+Rotation shift<br>
+<code>zoption_2</code><br>
+固定作业点<br>
+工件坐标<br>
+简易码垛功能<br>
+感测功能<br>
+Frame correction<br>
+<code>zoption_3</code><br>
+更改增益功能<br>
+柔性吸收功能<br>
+实时扰度补偿功能<br>
+程序列队<br>
+Servo Hemming Tool Control<br>
+<code>zoption_4</code><br>
+人机界面功能<br>
+专用信号使用内部信号允许<br>
+多功能OX/WX<br>
+作业空间输出功能<br>
+马达OFF错误<br>
+暂停时OX信号输出保持<br>
+数据保存功能<br>
+OX/WX信号数扩展<br>
+路径中信号输出功能<br>
+Waveform data logging function<br>
+Multiple USB memory access<br>
+<code>zoption_5</code><br>
+块速度指定<br>
+速度直接指定<br>
+加减速固定<br>
+多功能速度指定<br>
+速度指定解除<br>
+姿势角速度控制功能<br>
+速度示教类型2<br>
+精度类型2<br>
+快速检查模式<br>
+检查进给功能<br>
+<code>zoption_6</code><br>
+冲突检测功能<br>
+手臂ID<br>
+电流饱和报警功能<br>
+运转信息显示<br>
+故障预知功能<br>
+维护支持功能<br>
+制动装置检查功能<br>
+Traceability Function<br>
+<code>zoption_7</code><br>
+程序逆复制<br>
+FN命令示教<br>
+福特澳大利亚规格<br>
+KI命令示教<br>
+Teaching by Cursor Key<br>
+<code>zoption_8</code><br>
+协调动作<br>
+<code>zoption_9</code><br>
+EDI,EXE 简写输入不允许<br>
+<code>zoption_10</code><br>
+圆弧插补<br>
+辅助一体型程序手腕均分动作<br>
+<code>zoption_11</code><br>
+对于夏普PLC<br>
+继电器板<br>
+不使用操作面板的功能<br>
+<code>zoption_12</code><br>
+主机通信1<br>
+通用现场总线IO<br>
+KLogic<br>
+Cubic-S<br>
+由TP写入Cubic-S<br>
+TCP/IP Connect Reset<br>
+Teach pendant web browser</p>
+</li>
+<li>
+<p>查看部分R代码列表：R-&gt;A+help</p>
+</li>
+<li>
+<p>变更用户等级(Level 1/2/3)：R-&gt;899-&gt;输入密码9498或9894</p>
+</li>
+<li>
+<p>界面保护相关：<br>
+Aux 0802，0896，0897和0898（将1级和2级操作员设置为3级访问权限来限制可使用内容）；使用PC程序永久性地“锁定”屏幕防止访问其他区域，要使用到MAINDISP，IFPDISP 'x' （x =接口面板编号）</p>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu18搭建基于vlmcsd的kms服务]]></title>
+        <id>https://blog.chenlang.win/post/Ubuntu18搭建基于vlmcsd的kms服务/</id>
+        <link href="https://blog.chenlang.win/post/Ubuntu18搭建基于vlmcsd的kms服务/">
+        </link>
+        <updated>2018-07-07T13:05:27.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li><a href="https://github.com/Wind4/vlmcsd">vlmcsd项目地址</a><br>
+在文件binaries.tar.gz内vlmcsd打头的用于服务端，vlmcs打头的用于检测KMS服务状态，vlmcsdmulti打头的兼具前两者功能；floppy是虚拟机镜像，可在Vitrualbox或Hyper-v中运行。</li>
+</ul>
+<h1 id="kms-server">KMS server</h1>
+<ul>
+<li>将已编译好的vlmcsd二进制文件（<code>./Linux/intel/static/vlmcsd-x64-musl-static</code>）重命名为<code>kms</code>并置于目录<code>/usr/local/</code>下，设置权限：<code>chmod 755 /usr/local/kms</code></li>
+<li>新建一个空文件用于存放pid：</li>
+</ul>
+<pre><code>cat &gt; /var/run/kms.pid &lt;&lt;EOF	
+EOF
+</code></pre>
+<ul>
+<li>新建服务<code>kms.service</code></li>
+</ul>
+<pre><code>cat &gt; /etc/systemd/system/kms.service &lt;&lt;EOF
+[Unit]
+Description=KMS Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/kms.pid
+ExecStart=/usr/local/kms -p /var/run/kms.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+</code></pre>
+<ul>
+<li>防火墙放行默认1688端口<br>
+若需自定义端口则更改执行参数<code>ExecStart=/usr/local/kms -L 0.0.0.0:8888 -p /var/run/kms.pid</code></li>
+<li>设置开机自启：<br>
+重载服务：<code>systemctl daemon-reload</code><br>
+启动服务：<code>systemctl start kms</code><br>
+设置开机启动：<code>systemctl enable kms</code><br>
+查看运行状态：<code>systemctl status kms</code></li>
+</ul>
+<h1 id="kms-client">KMS client</h1>
+<ul>
+<li>Activate Windows<br>
+<a href="https://docs.microsoft.com/zh-cn/windows-server/get-started/kmsclientkeys#windows-10-all-supported-semi-annual-channel-versions">KMS 客户端安装密钥</a><br>
+<a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN">Appendix A: KMS Client Setup Keys</a>（早期版本）<br>
+CMD命令：</li>
+</ul>
+<pre><code>wmic os get caption                                 #查看系统版本
+slmgr.vbs /upk                                      #卸载密钥 
+slmgr.vbs /ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D        #安装密钥（企业版 LTSC 2019）
+slmgr.vbs /skms Your IP or Domain                   #设置kms服务器
+slmgr.vbs /ato                                      #激活
+slmgr.vbs /xpr                                      #查看激活信息
+slmgr.vbs /dlv                                      #查看详细激活信息
+</code></pre>
+<ul>
+<li>Activate Office<br>
+<a href="https://docs.microsoft.com/zh-cn/deployoffice/vlactivation/plan-volume-activation-of-office">Office 批量激活概述</a><br>
+<a href="https://docs.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks">用于 Office 2019 和 Office 2016 的 KMS 和基于 Active Directory 激活的 GVLK</a><br>
+CMD命令：</li>
+</ul>
+<pre><code>cd &quot;C:\Program Files\Microsoft Office\Office16&quot;         #默认安装位置
+cd /d &quot;D:\Program Files\Microsoft Office\Office16&quot;      #自定义安装位置
+cscript ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP  #安装密钥（专业增强版2019）
+cscript ospp.vbs /sethst:Your IP or Domain              #设置kms服务器
+cscript ospp.vbs /act                                   #激活
+cscript ospp.vbs /dstatus                               #查看激活信息
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[人生如记——二〇一七纪要]]></title>
+        <id>https://blog.chenlang.win/post/人生如记——二〇一七纪要/</id>
+        <link href="https://blog.chenlang.win/post/人生如记——二〇一七纪要/">
+        </link>
+        <updated>2017-12-12T15:01:41.000Z</updated>
+        <content type="html"><![CDATA[<p>三月中旬：台州－温州－南昌<br>
+结束了在巨科的三月工人之旅。</p>
+<p>五月上旬：南昌－青岛－威海－青岛－上海－杭州－重庆<br>
+彼时渴望高薪工作，差点被学长拉去传销，救赎学长是不可能了，转而离开。同学长的交情大抵只能到这儿了。难忘的七个昼夜，威海不再见。和他们一样想立足北上广深杭。Too young too naive，正趣果上果。</p>
+<p>六月下旬：重庆－南昌－重庆<br>
+四年收获的两张纸不过是比复印店的A4厚实些，才发觉自己的认知不过是吃老本。倒不是说一无用处，兴许可以时不时又刺痛你。</p>
+<p>八月下旬：梁平－重庆<br>
+先养活自己吧，还能怎么样呢，回渝四下求职。重庆此时正是三伏天，奔走于马路间，头一回体验到要中暑了。</p>
+<p>九月中旬：重庆－襄阳<br>
+生活也不是那么糟糕，所幸找到一份自己喜欢的工作（机器人集成应用商）。这份工作很忙，以至于在此刻之前都没有时间来回顾总结。期间有个恋爱被我谈崩了，愈发觉得自己对爱情用不上心了。</p>
+<p>十二月中旬<br>
+赶在二〇一八年前终于搭建出自己的博客，拥有个人网站的小心愿总算是达成了。挑了个便宜的.win域名续费了十年，往后的记事本就搁在这里了。</p>
+<p>异地求学四年，感谢仍愿与我保持联系的老友。展望二〇一八，做好知识管理与积累；少空想多实干；积极努力工作；关心粮食和蔬菜；关心家人健康，关心朋友生活。</p>
+]]></content>
+    </entry>
+</feed>
