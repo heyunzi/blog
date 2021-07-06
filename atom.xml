@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blog.chenlang.win</id>
     <title>陈浪的记事本</title>
-    <updated>2021-04-03T18:46:54.173Z</updated>
+    <updated>2021-07-06T15:57:41.368Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blog.chenlang.win"/>
     <link rel="self" href="https://blog.chenlang.win/atom.xml"/>
@@ -169,9 +169,9 @@ JRE --&gt; Perl --&gt; Oracle--&gt;Database Instance Creation --&gt;Process Desi
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[关于Funuc手工编写LS程序的说明]]></title>
-        <id>https://blog.chenlang.win/post/关于Funuc手工编写LS程序的说明/</id>
-        <link href="https://blog.chenlang.win/post/关于Funuc手工编写LS程序的说明/">
+        <title type="html"><![CDATA[关于Fanuc手工编写LS程序的说明]]></title>
+        <id>https://blog.chenlang.win/post/关于Fanuc手工编写LS程序的说明/</id>
+        <link href="https://blog.chenlang.win/post/关于Fanuc手工编写LS程序的说明/">
         </link>
         <updated>2020-03-17T13:51:57.000Z</updated>
         <summary type="html"><![CDATA[<p>参考文档 rjprogramtranseg.chm</p>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Ubuntu开启BBR记录 | 陈浪的记事本</title>
+<title>关于Fanuc手工编写LS程序的说明 | 陈浪的记事本</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -27,19 +27,12 @@
 </script>
 
 
-    <meta name="description" content="Google 开源了TCP BBR拥塞控制算法，从Linux Kernel 4.9 版本开始已内置该算法。
-
-开启bbr
-
-查看内核版本
-
-uname -r
+    <meta name="description" content="参考文档 rjprogramtranseg.chm
 
 
-修改系统变量
-
-echo &quot;net.core.default_qdi..." />
-    <meta name="keywords" content="Ubuntu/Debian,Linux,v2ray" />
+/ PROG 区域中的程序名和文本文件名必须相同。
+可在程序区域（/ PROG）中的程序名称后指定一个子类型，例如“ PROCESS”，“ JOB”，“ MACRO”，“ COND”；..." />
+    <meta name="keywords" content="FANUC" />
   </head>
   <body>
     <div id="app" class="main">
@@ -110,64 +103,92 @@ echo &quot;net.core.default_qdi..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Ubuntu开启BBR记录</h2>
-            <div class="post-date">2019-02-03 03:23:27</div>
+            <h2 class="post-title">关于Fanuc手工编写LS程序的说明</h2>
+            <div class="post-date">2020-03-17 21:51:57</div>
             
             <div class="post-content" v-pre>
-              <p>Google 开源了TCP BBR拥塞控制算法，从Linux Kernel 4.9 版本开始已内置该算法。</p>
+              <p>参考文档 rjprogramtranseg.chm</p>
 <!-- more -->
-<p>开启bbr</p>
-<ol>
-<li>查看内核版本</li>
-</ol>
-<pre><code>uname -r
+<ul>
+<li>/ PROG 区域中的程序名和文本文件名必须相同。</li>
+<li>可在程序区域（/ PROG）中的程序名称后指定一个子类型，例如“ PROCESS”，“ JOB”，“ MACRO”，“ COND”；不指定时，程序子类型处于未定义状态。</li>
+<li>宏名称不能含有空格或与助记符指令相同，例如“ hand_open”，“ hand_close”，“ END”：</li>
+</ul>
+<pre><code>/PROG DEMO  JOB
 </code></pre>
-<ol start="2">
-<li>修改系统变量</li>
-</ol>
-<pre><code>echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf
+<ul>
+<li>参数名称中不能含有任何空格。</li>
+<li>可省略全部或部分程序属性区域（/ ATTR）：</li>
+</ul>
+<pre><code>/PROG  DEMO1
+/MN
+        1:  IF R[1]=1, CALL DEMO2;
+                         .
+                         .
+                         .
 </code></pre>
-<pre><code>echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf
+<pre><code>/PROG  DEMO2
+/ATTR
+COMMENT = &quot;&quot;;
+DEFAULT_GROUP  = 1,1,*,*,*;
+/MN
+        1:  IF R[1]=1, CALL DEMO3;
+                         .
+                         .
+                         .
 </code></pre>
-<ol start="3">
-<li>保存生效</li>
-</ol>
-<pre><code>sysctl -p
+<ul>
+<li>指定“ DEFAULT_GROUP”来使用其他运动组：</li>
+</ul>
+<pre><code>DEFAULT_GROUP = 1，1，*，*，*;
 </code></pre>
-<p>显示如下结果：<br>
-kernel.panic = 10<br>
-net.ipv6.conf.all.disable_ipv6 = 1<br>
-net.core.default_qdisc = fq<br>
-net.ipv4.tcp_congestion_control = bbr</p>
-<ol start="4">
-<li>查看内核是否已开启BBR</li>
-</ol>
-<pre><code>sysctl net.ipv4.tcp_available_congestion_control
+<ul>
+<li>可在应用程序数据区域（/ APPL）指定不同应用设备编号：<br>
+Spot Welding：</li>
+</ul>
+<pre><code>/APPL
+    Spot Welding Equipment Number : n
+//（n&gt; = 1）
 </code></pre>
-<p>显示以下即已开启：<br>
-net.ipv4.tcp_available_congestion_control = bbr cubic reno</p>
-<ol start="5">
-<li>查看BBR是否启动</li>
-</ol>
-<pre><code>lsmod | grep bbr
+<p>Arc Welding：</p>
+<pre><code>/APPL
+    Arc Welding Equipment Number : n
+//(n &gt;= 1)
 </code></pre>
-<p>显示以下即启动成功：<br>
-tcp_bbr                20480  8</p>
+<p>Sealing：</p>
+<pre><code>/APPL
+    ANALOG PRO-FLO Equipment Number : n
+//（1 &lt;= n &lt;= 5）
+</code></pre>
+<p>Intellitrak Schedule：</p>
+<pre><code>/APPL
+    Intellitrak Schedule Number : n
+//（n &gt;= 0）默认计划编号为1,若未指定则无法使用示教器进行设置
+</code></pre>
+<ul>
+<li>程序主体区域（/ MN）中的行号不必正确设置，且可忽略。</li>
+<li>可在程序主体区域（/ MN）中省略I / O、寄存器、位置寄存器和托盘寄存器指令的注释；即使已指定，加载时也将被忽略；加载TP文件后，R-J的注释不会更改。</li>
+<li>可省略程序主体区域（/ MN）中的位置注释。即使已指定，加载时也将被忽略并使用位置数据区域（/ POS）中的位置注释。</li>
+</ul>
+<pre><code>/POS
+P[1:&quot;WAIT POS&quot;]{
+GP1:
+UF : 0, UT : 1, CONFIG : 'N, 0, 0, 0',
+X =  1680.00  mm, Y =     0.00  mm, Z = 1190.00  mm,
+W =  -180.00 deg, P =   -90.00 deg, R =     0.00 deg
+};
+</code></pre>
+<ul>
+<li>如果在位置数据区（/ POS）中未定义程序主体区（/ MN）中运动语句使用的位置数据，则该数据处于未定义状态。</li>
+<li>Kana version R-J可能无法加载TP文件。可将其扩展名TP更改为MN后再加载。</li>
+</ul>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://blog.chenlang.win/tag/Ubuntu/Debian/" class="tag">
-                    Ubuntu/Debian
-                  </a>
-                
-                  <a href="https://blog.chenlang.win/tag/Linux/" class="tag">
-                    Linux
-                  </a>
-                
-                  <a href="https://blog.chenlang.win/tag/v2ray/" class="tag">
-                    v2ray
+                  <a href="https://blog.chenlang.win/tag/FANUC/" class="tag">
+                    FANUC
                   </a>
                 
               </div>
@@ -175,9 +196,9 @@ tcp_bbr                20480  8</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://blog.chenlang.win/post/Kawasaki功能维护指令和R代码/">
+                <a href="https://blog.chenlang.win/post/相信未来/">
                   <h3 class="post-title">
-                    Kawasaki功能维护指令和R代码
+                    相信未来
                   </h3>
                 </a>
               </div>
